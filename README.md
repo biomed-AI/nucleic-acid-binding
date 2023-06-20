@@ -25,11 +25,11 @@ The protein structures should be predicted by ESMFold to run MullBind:
 Download the ESMFold model ([guide](https://github.com/facebookresearch/esm))  
 # Run MullBind for prediction
 Simply run:  
-'''
+```
 python predict.py --dataset_path ../Example/structure_data/ --feature_path ../Example/prottrans/ --input_path ../Example/demo.pkl
-'''
+```
 And the prediction results will be saved in  
-'''
+```
 ../Example/results
-'''
+```
 
