@@ -37,7 +37,7 @@ test_dataloader = DataLoader(test_dataset, batch_size = 1, shuffle=False, drop_l
 
 models = []
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model_class = NucSite
+model_class = MullBind
 for fold in range(5):
     state_dict = torch.load(model_path + 'fold%s.ckpt'%fold, device)
     model = model_class(1044, 128, 5, 0.95, 0.1).to(device)
