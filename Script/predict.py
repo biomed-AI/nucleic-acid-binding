@@ -21,12 +21,12 @@ parser.add_argument("--dataset_path", type=str, default='../Example/structure_da
 parser.add_argument("--feature_path", type=str, default='../Example/prottrans/')
 parser.add_argument("--num_workers", type=int, default=8)
 parser.add_argument("--ligand", type=str, default='DNA')
-parser.add_argument('--demo_path', type=str, default='../Example/demo.pkl')
+parser.add_argument('--input_path', type=str, default='../Example/demo.pkl')
 args = parser.parse_args()
 
 model_path = '../Model/'
 
-with open(args.demo_path, "rb") as f:
+with open(args.input_path, "rb") as f:
     test_data1 = pickle.load(f)   
 test_data = test_data1.copy()
 for key in test_data1.keys():
