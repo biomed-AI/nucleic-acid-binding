@@ -33,4 +33,11 @@ And the prediction results will be saved in
 ```
 ../Example/results
 ```
+# Dataset and model
+We provide the datasets and the trained MullBind models here for those interested in reproducing our paper. The datasets used in this study are stored in ```../Dataset/```.
+The trained MullBind models can be found under ```../Model/```.
+# contact
+Yidong Song (songyd6@mail2.sysu.edu.cn)  
+Yuedong Yang (yangyd25@mail.sysu.edu.cn)
+
 
