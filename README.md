@@ -18,7 +18,7 @@ torchaudio 0.13.1+cu116
 torchvision 0.14.1+cu116  
 urllib3  1.26.15  
 wheel 0.38.4  
-# Pretrained language model
+# ProtTrans
 You need to prepare the pretrained language model ProtTrans to run MullBind:  
 Download the pretrained ProtT5-XL-UniRef50 model ([guide](https://github.com/agemagician/ProtTrans)).  
 # ESMFold
