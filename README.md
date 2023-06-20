@@ -1,6 +1,6 @@
 # Introduction
 MullBind is an accurate predictor for identifying nucleic-acid-binding residues using multiple-task strategy and large-scale language model. Here, the informative sequence representations and protein structures are generated through the pretrained language model and ESMFold first. Then MullBind employs geometric vector perceptron to extract geometric and relational characteristics from predicted protein structures, as well as leverages the multiple-task deep learning strategy to obtain common binding characteristics from different nucleic acids. Finally, two nucleic-acid-specific fully connected layers are employed to learn the binding patterns of particular nucleic acids. Through comprehensive tests on DNA/RNA benchmark datasets, MullBind was shown to surpass the latest sequence-based methods and even the state-of-the-art structure-based methods. 
-![image](https://github.com/songyidong-true/nucleic-acid-binding/blob/main/IMG/MullBind_framework.png)
+![image](https://github.com/biomed-AI/nucleic-acid-binding/blob/main/IMG/MullBind_framework1.jpg)
 # System requirement
 python 3.8.16  
 numpy 1.24.2  
