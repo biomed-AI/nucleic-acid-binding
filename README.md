@@ -1,5 +1,5 @@
 # Introduction
-MullBind is an accurate predictor for identifying nucleic-acid-binding residues using multiple-task strategy and large-scale language model. Here, the informative sequence representations and protein structures are generated through the pretrained language model and ESMFold first. Then MullBind employs geometric vector perceptron to extract geometric and relational characteristics from predicted protein structures, as well as leverages the multiple-task deep learning strategy to obtain common binding characteristics from different nucleic acids. Finally, two nucleic-acid-specific fully connected layers are employed to learn the binding patterns of particular nucleic acids. Through comprehensive tests on DNA/RNA benchmark datasets, MullBind was shown to surpass the latest sequence-based methods and even the state-of-the-art structure-based methods. 
+GLMSite is an accurate predictor for identifying nucleic-acid-binding residues using multiple-task strategy and large-scale language model. Here, the informative sequence representations and protein structures are generated through the pretrained language model and ESMFold first. Then GLMSite employs geometric vector perceptron to extract geometric and relational characteristics from predicted protein structures, as well as leverages the multiple-task deep learning strategy to obtain common binding characteristics from different nucleic acids. Finally, two nucleic-acid-specific fully connected layers are employed to learn the binding patterns of particular nucleic acids. Through comprehensive tests on DNA/RNA benchmark datasets, GLMSite was shown to surpass the latest sequence-based methods and even the state-of-the-art structure-based methods. 
 ![image](https://github.com/biomed-AI/nucleic-acid-binding/blob/main/IMG/MullBind_framework.jpg)
 # System requirement
 python 3.8.16  
@@ -19,12 +19,12 @@ torchvision 0.14.1+cu116
 urllib3  1.26.15  
 wheel 0.38.4  
 # ProtTrans
-You need to prepare the pretrained language model ProtTrans to run MullBind:  
+You need to prepare the pretrained language model ProtTrans to run GLMSite:  
 Download the pretrained ProtT5-XL-UniRef50 model ([guide](https://github.com/agemagician/ProtTrans)).  
 # ESMFold
-The protein structures should be predicted by ESMFold to run MullBind:  
+The protein structures should be predicted by ESMFold to run GLMSite:  
 Download the ESMFold model ([guide](https://github.com/facebookresearch/esm))  
-# Run MullBind for prediction
+# Run GLMSite for prediction
 Simply run:  
 ```
 python predict.py --dataset_path ../Example/structure_data/ --feature_path ../Example/prottrans/ --input_path ../Example/demo.pkl
@@ -34,8 +34,8 @@ And the prediction results will be saved in
 ../Example/results
 ```
 # Dataset and model
-We provide the datasets and the trained MullBind models here for those interested in reproducing our paper. The datasets used in this study are stored in ```../Dataset/```.
-The trained MullBind models can be found under ```../Model/```.
+We provide the datasets and the trained GLMSite models here for those interested in reproducing our paper. The datasets used in this study are stored in ```../Dataset/```.
+The trained GLMSite models can be found under ```../Model/```.
 # contact
 Yidong Song (songyd6@mail2.sysu.edu.cn)  
 Yuedong Yang (yangyd25@mail.sysu.edu.cn)
