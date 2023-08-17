@@ -92,9 +92,9 @@ class GVP_encoder(nn.Module):
         return self.dense(out) #self.dense(out).squeeze(-1) + 0.5
 
 
-class MullBind(nn.Module):
+class GLMSite(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_layers, augment_eps, dropout):
-        super(MullBind, self).__init__()
+        super(GLMSite, self).__init__()
 
         self.GVP_encoder = GVP_encoder(node_in_dim=(input_dim,3), node_h_dim=(hidden_dim, 16), edge_in_dim=(32,1), edge_h_dim=(32, 1), seq_in=True, num_layers=num_layers, drop_rate=dropout)
 

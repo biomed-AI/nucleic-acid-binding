@@ -37,7 +37,7 @@ test_dataloader = DataLoader(test_dataset, batch_size = 1, shuffle=False, drop_l
 
 models = []
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model_class = MullBind
+model_class = GLMSite
 for fold in range(5):
     state_dict = torch.load(model_path + 'fold%s.ckpt'%fold, device)
     model = model_class(1044, 128, 5, 0.95, 0.1).to(device)
@@ -62,7 +62,7 @@ for data in tqdm(test_dataloader):
 
 for key in pred_dict.keys():
     with open('../Example/results/{}.txt'.format(key),'w') as w:
-        w.writelines('# The results of MullBind' + '\n')
+        w.writelines('# The results of GLMSite' + '\n')
         w.writelines('Num' + "\t" + 'AA' + "\t" + 'Score' + '\n')
         for i in range(len(pred_dict[key])):
             if args.ligand == 'DNA':
