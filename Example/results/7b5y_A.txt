@@ -1,4 +1,4 @@
-# The results of MullBind
+# The results of GLMSite
 Num	AA	Score
 0	E	0.019
 1	I	0.026
