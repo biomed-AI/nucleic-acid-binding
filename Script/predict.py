@@ -22,16 +22,30 @@ parser.add_argument("--feature_path", type=str, default='../Example/prottrans/')
 parser.add_argument("--num_workers", type=int, default=8)
 parser.add_argument("--ligand", type=str, default='DNA')
 parser.add_argument('--input_path', type=str, default='../Example/demo.pkl')
+parser.add_argument('--fasta_file', type=str, default='../Example/input.fasta')
+parser.add_argument('--output_prottrans', type=str, default='../Example/prottrans/')
+parser.add_argument('--output_esmfold', type=str, default='../Example/structure_data/')
+parser.add_argument('--output_dssp', type=str, default='../Example/structure_data/')
 args = parser.parse_args()
 
 model_path = '../Model/'
 
-with open(args.input_path, "rb") as f:
-    test_data1 = pickle.load(f)   
-test_data = test_data1.copy()
-for key in test_data1.keys():
-    if 'U' in test_data1[key][0]:
-        del test_data[key]   
+# with open(args.input_path, "rb") as f:
+#     test_data1 = pickle.load(f)   
+# test_data = test_data1.copy()
+# for key in test_data1.keys():
+#     if 'U' in test_data1[key][0]:
+#         del test_data[key]
+test_data = {}
+with open(args.fasta_file) as r1:
+    fasta_ori = r1.readlines()
+for i in range(len(fasta_ori)):
+    if fasta_ori[i][0] == ">":
+        name = fasta_ori[i].split('>')[1].replace('\n','')
+        seq = fasta_ori[i+1].replace('/n','')
+        test_data[name] = seq
+
+ 
 test_dataset = ProteinGraphDataset(test_data, range(len(test_data)), args, task_list=["DNA", "RNA"])
 test_dataloader = DataLoader(test_dataset, batch_size = 1, shuffle=False, drop_last=False, num_workers=args.num_workers, prefetch_factor=2)
 
