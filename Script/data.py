@@ -5,6 +5,9 @@ import torch.utils.data as data
 import torch.nn.functional as F
 import torch_geometric
 import torch_cluster
+import os
+import features
+
 
 
 def _normalize(tensor, dim=-1):
@@ -113,6 +116,10 @@ class ProteinGraphDataset(data.Dataset):
 
         self.dataset_path = args.dataset_path
         self.feature_path = args.feature_path
+        self.fasta_file = args.fasta_file
+        self.output_prottrans = args.output_prottrans
+        self.output_esmfold = args.output_esmfold
+        self.output_dssp = args.output_dssp
         self.task_list = task_list
 
         self.top_k = top_k
@@ -134,7 +141,14 @@ class ProteinGraphDataset(data.Dataset):
     def _featurize_as_graph(self, idx):
         name = self.IDs[idx]
         with torch.no_grad():
+            if not os.path.exists(self.feature_path + name + ".npy"):
+                features.get_prottrans(self.fasta_file, self.output_prottrans)
+            if not os.path.exists(self.dataset_path + name + ".npy"):
+                features.get_esmfold(self.fasta_file, self.output_esmfold)
+            if not os.path.exists(self.dataset_path + name + "_dssp.npy"):
+                features.get_dssp(self.fasta_file, self.output_esmfold, self.output_dssp)
             coords = np.load(self.dataset_path + name + ".npy")
+            
             coords = torch.as_tensor(coords, device=self.device, dtype=torch.float32)
             seq = torch.as_tensor([self.letter_to_num[aa] for aa in self.dataset[name][0]],
                                   device=self.device, dtype=torch.long)
@@ -153,7 +167,8 @@ class ProteinGraphDataset(data.Dataset):
             orientations = self._orientations(X_ca)
             sidechains = self._sidechains(coords)
             
-            prottrans_feat = torch.load(self.feature_path + name + ".tensor")
+            # prottrans_feat = torch.load(self.feature_path + name + ".tensor")
+            prottrans_feat = torch.tensor(np.load(self.feature_path + name + ".npy"))
             dssp = torch.tensor(np.load(self.dataset_path + name + "_dssp.npy"))
 
             node_s = torch.cat([dihedrals, prottrans_feat, dssp], dim=-1).to(torch.float32)
@@ -166,25 +181,25 @@ class ProteinGraphDataset(data.Dataset):
             node_s, node_v, edge_s, edge_v = map(torch.nan_to_num,
                     (node_s, node_v, edge_s, edge_v))
             
-            y = []
-            y_mask = []
-            for i in range(len(self.task_list)):
-                y_task = self.dataset[name][1][i]
-                if y_task:
-                    y.append(y_task)
-                    y_mask.append([1] * len(seq))
-                else:
-                    y.append([0] * len(seq))
-                    y_mask.append([0] * len(seq))
+            # y = []
+            # y_mask = []
+            # for i in range(len(self.task_list)):
+            #     y_task = self.dataset[name][1][i]
+            #     if y_task:
+            #         y.append(y_task)
+            #         y_mask.append([1] * len(seq))
+            #     else:
+            #         y.append([0] * len(seq))
+            #         y_mask.append([0] * len(seq))
     
-            y = torch.as_tensor(y, device=self.device, dtype=torch.float32).t()
-            y_mask = torch.as_tensor(y_mask, device=self.device, dtype=torch.float32).t()
+            # y = torch.as_tensor(y, device=self.device, dtype=torch.float32).t()
+            # y_mask = torch.as_tensor(y_mask, device=self.device, dtype=torch.float32).t()
 
         data = torch_geometric.data.Data(x=X_ca, seq=seq, name=name,
                                          node_s=node_s, node_v=node_v,
                                          edge_s=edge_s, edge_v=edge_v,
-                                         edge_index=edge_index, mask=mask,
-                                         y = y, y_mask = y_mask)
+                                         edge_index=edge_index, mask=mask,)
+                                        #  y = y, y_mask = y_mask)
         return data
                                 
     def _dihedrals(self, X, eps=1e-7):
