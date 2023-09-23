@@ -14,6 +14,7 @@ from data import *
 from model import *
 import argparse
 import numpy as np
+import os
 
 
 parser = argparse.ArgumentParser()
@@ -29,7 +30,6 @@ parser.add_argument('--output_dssp', type=str, default='../Example/structure_dat
 args = parser.parse_args()
 
 model_path = '../Model/'
-
 # with open(args.input_path, "rb") as f:
 #     test_data1 = pickle.load(f)   
 # test_data = test_data1.copy()
@@ -43,9 +43,9 @@ for i in range(len(fasta_ori)):
     if fasta_ori[i][0] == ">":
         name = fasta_ori[i].split('>')[1].replace('\n','')
         seq = fasta_ori[i+1].replace('/n','')
-        test_data[name] = seq
+        test_data[name] = seq.replace('\n','')
 
- 
+
 test_dataset = ProteinGraphDataset(test_data, range(len(test_data)), args, task_list=["DNA", "RNA"])
 test_dataloader = DataLoader(test_dataset, batch_size = 1, shuffle=False, drop_last=False, num_workers=args.num_workers, prefetch_factor=2)
 
@@ -80,6 +80,6 @@ for key in pred_dict.keys():
         w.writelines('Num' + "\t" + 'AA' + "\t" + 'Score' + '\n')
         for i in range(len(pred_dict[key])):
             if args.ligand == 'DNA':
-                w.writelines(str(i) + "\t" + test_data[key][0][i] + "\t" + str(np.round(pred_dict[key][i][0].cpu().numpy(),3)) + '\n')
+                w.writelines(str(i) + "\t" + test_data[key][i] + "\t" + str(np.round(pred_dict[key][i][0].cpu().numpy(),3)) + '\n')
             else:
-                w.writelines(str(i) + "\t" + test_data[key][0][i] + "\t" + str(np.round(pred_dict[key][i][1].cpu().numpy(),3)) + '\n')
+                w.writelines(str(i) + "\t" + test_data[key][i] + "\t" + str(np.round(pred_dict[key][i][1].cpu().numpy(),3)) + '\n')
